@@ -1,4 +1,4 @@
-from texttransformer import compareTexts
+from texttransformer import compareTexts, insertText, randomText, removeText, replaceText, searchText
 
 
 allTests = {}
@@ -27,8 +27,8 @@ def executeTest(testname):
 def successfulTest(testname):
     print("Test " + testname + " was successful")
 
-def failedTest(testname, expected, actual):
-    print("Test " + testname + "failed.\nExpected : " + expected + "\nActual :" + actual)
+def failedTest(testname):
+    print("Test " + testname + " failed.")
 
 def defineTests():
     def emptyTest():
@@ -37,8 +37,28 @@ def defineTests():
     def textCompareTest():
         return assertThat(compareTexts('','') == "Equal")
 
+    def textReplaceTest():
+        return assertThat(replaceText('I have your cat', 'cat', 'dog') == "I have your dog")
+
+    def textRemoveTest():
+        return assertThat(removeText('I have your cat', 'r cat') == "I have you")
+
+    def textInsertTest():
+        return assertThat(insertText('I have you', 'you', ' now') == "I have you now")
+
+    def textSearchTest():
+        return assertThat(searchText('I have you now', 'you') == [7])
+
+    def randomTest():
+        return assertThat(randomText(randomText(randomText('Hey guys, welcome back! @@@666777'))) != "")
+
     defineTest('empty test', emptyTest)
     defineTest('empty texts are equal', textCompareTest)
+    defineTest('replacing text works', textReplaceTest)
+    defineTest('removing text works', textRemoveTest)
+    defineTest('inserting text works', textInsertTest)
+    defineTest('searching text works', textSearchTest)
+    defineTest('random text works', randomTest)
 
 def main():
     defineTests()
